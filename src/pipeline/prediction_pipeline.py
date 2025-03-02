@@ -9,25 +9,23 @@ class PredictPipeline:
     def __init__(self):
         pass
 
-    def predict(self,features):
+    def predict(self, features):
         try:
-            preprocessor_path=os.path.join('artifacts','preprocessor.pkl')
-            model_path=os.path.join('artifacts','model.pkl')
+            preprocessor_path= os.path.join('artifacts','preprocessor.pkl')
+            model_path= os.path.join('artifacts','model.pkl')
 
             preprocessor=load_object(preprocessor_path)
             model=load_object(model_path)
 
             data_scaled=preprocessor.transform(features)
-
             pred=model.predict(data_scaled)
+
             return pred
         
-
         except Exception as e:
             logging.info("Exception occured in prediction")
-            raise CustomException(e,sys)
+            raise CustomException(e, sys)
         
-
 class CustomData:
     def __init__(self,
                  carat:float,
@@ -39,7 +37,6 @@ class CustomData:
                  cut:str,
                  color:str,
                  clarity:str):
-        
         self.carat=carat
         self.depth=depth
         self.table=table
@@ -55,7 +52,7 @@ class CustomData:
             custom_data_input_dict={
                 'carat':[self.carat],
                 'depth':[self.depth],
-                'table':[self.table],
+                'table':[self.depth],
                 'x':[self.x],
                 'y':[self.y],
                 'z':[self.z],
@@ -64,9 +61,10 @@ class CustomData:
                 'clarity':[self.clarity]
             }
             df=pd.DataFrame(custom_data_input_dict)
-            logging.info('DataFrame Gathered')
+            logging.info('DataFrame gathered')
             return df
         
         except Exception as e:
-            logging.info('Exception ocurred in prediction pipeline')
-            raise CustomException(e,SystemError)
+            logging.info('Exception occured in prediction pipeline')
+            raise CustomException(e,sys)
+
